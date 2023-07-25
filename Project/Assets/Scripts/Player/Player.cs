@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [Header("Refereces")]
-    public Transform trans;
-    public Transform modelHolder;
-    public CharacterController charController;
+    [Header("References")]
+    [SerializeField] Transform trans;
+    [SerializeField] Transform modelHolder;
+    [SerializeField] CharacterController charController;
 
     [Header("Gravity")]
-    public float maxGravity = 92;
-    public float timeToMaxGravity = .6f;
-    public float GravityPerSecond
+    [SerializeField] float maxGravity = 92;
+    [SerializeField] float timeToMaxGravity = .6f;
+
+    private float yVelocity = 0;
+
+    private float GravityPerSecond
     {
         get
         {
@@ -20,20 +23,20 @@ public class Player : MonoBehaviour
         }
     }
 
-    private float yVelocity = 0;
-
     [Header("Movement")]
-    public float movespeed = 42;
-    public float timeToMaxSpeed = .3f;
-    public float timeToLoseMaxSpeed = .2f;
-    public float reverseMomentumMultiplier = .6f;
-    public float midairMovementMultiplier = .4f;
-    public float bounciness = .2f;
+    [SerializeField] float movespeed = 42;
+    [SerializeField] float timeToMaxSpeed = .3f;
+    [SerializeField] float timeToLoseMaxSpeed = .2f;
+    [SerializeField] float reverseMomentumMultiplier = .6f;
+    [SerializeField] float midairMovementMultiplier = .4f;
+    [SerializeField] float bounciness = .2f;
+
     private Vector3 localMovementDirection = Vector3.zero;
     private Vector3 worldVelocity = Vector3.zero;
+    
     private bool grounded = false;
 
-    public float VelocityGainPerSecond
+    private float VelocityGainPerSecond
     {
         get
         {
@@ -44,7 +47,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public float VelocityLossPerSecond
+    private float VelocityLossPerSecond
     {
         get
         {
@@ -53,16 +56,17 @@ public class Player : MonoBehaviour
     }
 
     [Header("Jumping")]
-    public float jumpPower = 76;
+    [SerializeField] float jumpPower = 76;
 
     [Header("Wall Jumping")]
-    public float wallJumpPower = 40;
-    public float wallJumpAir = 56;
-    public float wallDetectionRange = 2.4f;
-    public float wallJumpCooldown = .3f;
-    public LayerMask wallDetectionLayerMask;
+    [SerializeField] float wallJumpPower = 40;
+    [SerializeField] float wallUpwardsPower = 56;
+    [SerializeField] float wallDetectionRange = 2.4f;
+    [SerializeField] float wallJumpCooldown = .3f;
+    [SerializeField] LayerMask wallDetectionLayerMask;
+    
     private float lastWallJumpTime;
-
+    
     private bool WallJumpIsOffCooldown
     {
         get
@@ -149,9 +153,9 @@ public class Player : MonoBehaviour
                         worldVelocity = modelHolder.TransformDirection(localMovementDirection) * wallJumpPower;
 
                         if(yVelocity <= 0)
-                            yVelocity = wallJumpAir;
+                            yVelocity = wallUpwardsPower;
                         else
-                            yVelocity += wallJumpAir;
+                            yVelocity += wallUpwardsPower;
 
                         lastWallJumpTime = Time.time;
                     }
@@ -196,7 +200,7 @@ public class Player : MonoBehaviour
     }
 
     
-    public void AddVelocity(Vector3 amount)
+    private void AddVelocity(Vector3 amount)
     {
         worldVelocity += new Vector3(amount.x, 0, amount.z);
 

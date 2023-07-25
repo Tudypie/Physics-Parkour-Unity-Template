@@ -111,7 +111,6 @@ public class PlayerCamera : MonoBehaviour
         if(!firstPerson)
         {
             float scrollDelta = Input.GetAxis("Mouse ScrollWheel");
-
             thirdPersonDistance = Mathf.Clamp(thirdPersonDistance - scrollDelta * scrollSensivity, minThirdPersonDistance, maxThirdPersonDistance);
         }
     }
