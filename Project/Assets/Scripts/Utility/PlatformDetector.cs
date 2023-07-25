@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//this script has to be added on every movable prop
+//attach this script to any movable object
+[RequireComponent(typeof(SphereCollider))]
 public class PlatformDetector : MonoBehaviour
 {   
     [HideInInspector] public Transform platform = null;
